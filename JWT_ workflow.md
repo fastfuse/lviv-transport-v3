@@ -1,6 +1,6 @@
 # JWT Authorization workflow
 
-###Endpoints:
+### Endpoints:
 
 * /auth/register
 * /auth/login
@@ -8,13 +8,13 @@
 
 
 
-###Registration
+### Registration
 
 Request:
 
     POST: /auth/register
     HEADERS: content-type: application/json
-    BODY: {"username":"user1","password":"user1"}
+    BODY: {"username":"user1", "password":"user1"}
 
 Response:
 ```json
@@ -25,13 +25,13 @@ Response:
     }
 ```
 
-###Login
+### Login
 
 Request:
 
     POST: /auth/login
     HEADERS: content-type: application/json
-    BODY: {"username":"user1","password":"user1"}
+    BODY: {"username":"user1", "password":"user1"}
 
 Response:
 
@@ -43,7 +43,7 @@ Response:
     }
 ```
 
-###Logout
+### Logout
 
 Request:
 ```
