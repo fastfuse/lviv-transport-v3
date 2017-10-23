@@ -132,5 +132,8 @@ API
 Training
 Shop
 Blog
-About.idea
+About
+
+*.db
 .idea
+migrations

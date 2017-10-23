@@ -57,7 +57,7 @@ class TransportAPIWrapper:
         Method to get all available stops.
         """
         response = requests.get(self.ALL_STOPS)
-        # TODO: change keys name s to camel_case
+        # TODO: change keys names to snake_case
         return json.loads(response.json())
 
     def route_monitoring(self, route_id):

@@ -1,17 +1,13 @@
+# -*- coding: utf-8 -*-
 
-from app import app, errors
-from flask import render_template, jsonify, abort
+from . import api_blueprint
+from app import errors, utils
+from flask import jsonify, abort
 from flask.views import MethodView
 from .api_wrapper import TransportAPIWrapper
 
 # Public transport API object
 public_api = TransportAPIWrapper()
-
-
-@app.route('/')
-@app.route('/index')
-def index():
-    return render_template('index.html')
 
 
 class RoutesAPI(MethodView):
@@ -58,8 +54,10 @@ class RouteInfoAPI(MethodView):
     """
     Get Route monitoring info i.e. each vehicle on route.
     """
+    # testing login required decorator
+    decorators = [utils.login_required]
 
-    def get(self, route_id):
+    def get(self, route_id, **kwargs):
         vehicles = public_api.route_monitoring(route_id)
         return jsonify(vehicles_count=len(vehicles), vehicles_info=vehicles)
 
@@ -78,32 +76,32 @@ class StopInfoAPI(MethodView):
 
 routes_view = RoutesAPI.as_view('routes_api')
 
-app.add_url_rule('/api/v1/routes/',
-                 defaults={'route_id': None},
-                 view_func=routes_view,
-                 methods=['GET'])
+api_blueprint.add_url_rule('/routes/',
+                           defaults={'route_id': None},
+                           view_func=routes_view,
+                           methods=['GET'])
 
-app.add_url_rule('/api/v1/routes/<int:route_id>',
-                 view_func=routes_view,
-                 methods=['GET'])
+api_blueprint.add_url_rule('/routes/<int:route_id>',
+                           view_func=routes_view,
+                           methods=['GET'])
 
 
 stops_view = StopsAPI.as_view('stops_api')
 
-app.add_url_rule('/api/v1/stops/',
-                 view_func=stops_view,
-                 methods=['GET'])
+api_blueprint.add_url_rule('/stops/',
+                           view_func=stops_view,
+                           methods=['GET'])
 
 
 route_monitoring_view = RouteInfoAPI.as_view('route_monitoring')
 
-app.add_url_rule('/api/v1/route_monitoring/<route_id>',
-                 view_func=route_monitoring_view,
-                 methods=['GET'])
+api_blueprint.add_url_rule('/route_monitoring/<route_id>',
+                           view_func=route_monitoring_view,
+                           methods=['GET'])
 
 
 stop_monitoring_view = StopInfoAPI.as_view('stop_monitoring')
 
-app.add_url_rule('/api/v1/stop_monitoring/<stop_id>',
-                 view_func=stop_monitoring_view,
-                 methods=['GET'])
+api_blueprint.add_url_rule('/stop_monitoring/<stop_id>',
+                           view_func=stop_monitoring_view,
+                           methods=['GET'])

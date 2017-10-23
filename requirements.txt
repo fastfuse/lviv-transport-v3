@@ -1,3 +1,7 @@
 Flask
 Flask-Script
-requests
+Requests
+Flask-sqlalchemy
+Flask-migrate
+Flask-bcrypt
+PyJWT
